@@ -1,25 +1,11 @@
 import {config, AVAILABLE_METHODS} from "../default.config";
-const express = require('express');
+import {__init,app} from './helpers';
+
 
 export class Application {
   constructor () {
-    this.app = new express();
-  }
-
-  /**
-   *  Allow other applications to access to express
-   *  @returns {express|*|createApplication} return the Express app
-   */
-  getApp() {
-    return this.app;
-  }
-
-  use(...args) {
-    if(args){
-      throw new Error('You must supply arguments to use this function');
-    } else {
-      this.app.use(args);
-    }
+    this.app =  app();
+    __init(this.app);
   }
 
   /**
@@ -31,11 +17,11 @@ export class Application {
     });
   }
 
-  handleRequest(route, method, callback) {
+  handleGetRequest(route, method, callback) {
     if(!AVAILABLE_METHODS.hasOwnProperty(method.toUpperCase())){
       throw new Error(`Method ${method} is unavailable !`);
     }
-    console.log(`this.app.${method}('${route}',${callback})`);
-    this.app.call(method, route, callback);
+
+    this.app.call(method, callback, route);
   }
 }
