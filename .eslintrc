@@ -1,11 +1,4 @@
 {
-  "extends": "airbnb",
-  "globals": {
-    "_": false,
-    "R7Promise": false,
-    "renderTemplate": false,
-  },
-  "parser": "babel-eslint",
   "rules": {
     "comma-dangle": 1, // Commas at the end of objects, deactived in airbnb config
     "no-cond-assign": 0,
