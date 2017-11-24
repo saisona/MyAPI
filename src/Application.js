@@ -1,10 +1,11 @@
-import {config, AVAILABLE_METHODS} from "../default.config";
-import {__init,app} from './helpers';
-
+import {config} from "../default.config";
+import {__init,app, newRoute} from './helpers';
+import {Store} from './Store';
 
 export class Application {
   constructor () {
     this.app =  app();
+    this.store = new Store(LocalStorage)
     __init(this.app);
   }
 
@@ -13,15 +14,21 @@ export class Application {
    */
   run() {
     this.app.listen(config.port, function() {
-      console.log(`Running at 0.0.0.0:${config.port}`);
+      console.log(`Running at 0.0.0.0 :${config.port}`);
     });
   }
 
-  handleGetRequest(route, method, callback) {
-    if(!AVAILABLE_METHODS.hasOwnProperty(method.toUpperCase())){
-      throw new Error(`Method ${method} is unavailable !`);
-    }
-
-    this.app.call(method, callback, route);
+    /**
+     * Handle a GET request from Application into express API
+     * @param {String} route
+     * @param {String} method
+     * @param {Function} callback the function to call at least
+     */
+  get(route, callback) {
+    return this.app.get(route, callback);
+  }
+  
+  static route(path) {
+    return newRoute(path)
   }
 }
