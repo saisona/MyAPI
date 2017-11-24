@@ -1,27 +1,27 @@
-export class SSEService {
+import {BasicService} from './BasicService';
 
-  constructor(pathSSE, ...args) {
+export class SSEService extends BasicService{
+
+  constructor(store, pathSSE, ...args) {
+    super(store);
     if(!pathSSE) {
-      throw new Error("path from EventSource is missing !");
+      throw new Error("Path from listener is missing !");
     }
-    this.SSElistener = new EventSource(pathSSE);
     this.listeners = [];
     for( let i=0; i < args.length; i++ ) {
-      if(typeof args[i] !== EventTarget) {
+      if(typeof args[i] !== 'function') {
         throw new Error(`Argument ${i} can't be listened ! It may be not an EventTarget.`);
       }
       this.listeners.push(args[i]);
     }
-    this.SSElistener.onmessage = this.handleMessage;
-    this.SSElistener.onerror = SSEService.handleError;
-  }
-
-  handleMessage(msg) {
-  //  TODO : Here to handle
-    console.log(`MSG => ${msg}`);
+    this.socket = null;
   }
   
-  static handleError(err) {
-    throw new Error(err.message);
+  start() {
+    // TODO : Handle Start
+  }
+  
+  stop() {
+    // TODO : Handle stop
   }
 }

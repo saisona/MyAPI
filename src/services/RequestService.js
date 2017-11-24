@@ -1,47 +1,32 @@
-export class RequestService {
-  constructor() {
-    this.Http = new XMLHttpRequest();
+import {get, post} from 'request';
+import {BasicService} from './BasicService';
+
+export class RequestService extends BasicService {
+  constructor (store) {
+    super(store);
+    this.Http_get = get;
+    this.Http_request = post;
   }
-
-  get(requestLink, ...args) {
-    let buffer = null;
-
-    if(args) {
-      buffer = new FormData();
-      args.map(el => buffer.append(el.type, el.data));
-      console.log(buffer);
-    }
-    this.Http.open('GET', requestLink);
-    this.Http.send(args);
+  
+  
+  get (requestLink) {
     return new Promise((resolve, reject) => {
-      this.Http.onreadystatechange = (xhr) => {
-        if(this.Http.readyState === 4){
-          resolve(xhr.response);
-        }
-      };
-    })
+      this.Http_get(requestLink, (error, response, body) => {
+        if (error) reject(error);
+        else resolve(body);
+      });
+    });
   }
-
-  post() {
-    this.Http.open('GET', requestLink);
-    this.Http.send(args || null);
+  
+  
+  post (requestLink, obj) {
     return new Promise((resolve, reject) => {
-      this.Http.onreadystatechange = (xhr) => {
-        if(this.Http.readyState === 4){
-          try{
-            let res = JSON.parse(xhr.response);
-            this.reset();
-            resolve(res);
-          }catch(err) {
-            reject(err);
-          }
+      this.Http_request(requestLink, {json: obj}, (error, response, body) => {
+        if (error) reject(error);
+        else {
+          resolve({response: response, body: body});
         }
-      };
-    })
-  }
-
-  reset() {
-    this.Http = new XMLHttpRequest()
-    this.Http.onreadystatechange = null;
+      });
+    });
   }
 }
