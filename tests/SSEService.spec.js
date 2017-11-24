@@ -6,4 +6,5 @@ describe('#SSEService', function() {
     const sseService = new SSEService('http://api.github.com', 'onKeyDown', 'onNewMessage');
     return sseService !== null;
   })
+  
 });
