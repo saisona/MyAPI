@@ -5,7 +5,7 @@ describe('Application Primary', function() {
   it('should success creating a simple Application', function() {
     try {
       const app = new Application();
-      return truel
+      return true;
     }catch(err) {
       console.error(err);
       return false;
