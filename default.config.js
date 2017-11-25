@@ -1,6 +1,6 @@
-export const config= {
+export const config = {
   port: 3000,
-  env: 'dev'
+  env: 'dev',
 };
 
 export const AVAILABLE_METHODS = {
