@@ -4,6 +4,7 @@ const should = require('should');
 
 
 describe('#SSEService', function() {
+
     it('should success at anytime', function() {
       const onKeyDown = function() {
         return true;
@@ -15,7 +16,4 @@ describe('#SSEService', function() {
       return sseService !== null;
     });
 
-    should(it('should throw an error', function () {
-      const sseService = new SSEService();
-    })).not.equal(null);
 });
