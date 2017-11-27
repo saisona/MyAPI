@@ -1,7 +1,9 @@
 import {server} from 'gapi';
+import {BasicService} from './BasicService';
 
-export class AuthenticationService {
+export class AuthenticationService extends BasicService{
   constructor (store = null) {
+    super(store);
     this.store = store;
   }
   
