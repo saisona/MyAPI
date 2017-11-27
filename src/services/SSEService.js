@@ -1,6 +1,9 @@
-export class SSEService {
+import {BasicService} from './BasicService';
+
+export class SSEService extends BasicService{
 
   constructor(pathSSE, ...args) {
+    super(null);
     if(!pathSSE) {
       throw new Error("path from EventSource is missing !");
     }
