@@ -1,6 +1,9 @@
-export const config= {
+import * as configStore from 'basic-config-store';
+
+export const config = {
   port: 3000,
-  env: 'dev'
+  env: 'dev',
+  store: configStore.createConfig(),
 };
 
 export const AVAILABLE_METHODS = {
