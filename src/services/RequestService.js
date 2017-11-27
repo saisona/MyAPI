@@ -1,13 +1,16 @@
-import {get} from 'http';
+import {get, request} from 'http';
+import {BasicService} from './BasicService';
 
-export class RequestService {
-  constructor() {
-    this.Http = get;
+export class RequestService extends BasicService{
+  constructor(store) {
+    super(store);
+    this.Http_get = get;
+    this.Http_request = request;
   }
 
   get(requestLink) {
     return new Promise((resolve,reject) => {
-      this.Http(requestLink, (resp) => {
+      this.Http_get(requestLink, (resp) => {
         let response = null;
         resp.on('data', (chunck) => {
           if(!response)
@@ -27,7 +30,10 @@ export class RequestService {
 
   post(requestLink, opts) {
     return new Promise((resolve, reject) => {
-      this.Http.request('POST', requestLink, opts)
+      this.Http_request('POST', requestLink, opts, function(resp) {
+        resolve('404: API POST NOT ENABLED !');
+        reject(new Error('404: API POST NOT ENABLED !'));
+      })
     });
   }
 }
