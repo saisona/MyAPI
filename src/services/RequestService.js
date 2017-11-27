@@ -1,47 +1,39 @@
-export class RequestService {
-  constructor() {
-    this.Http = new XMLHttpRequest();
+import {get, request} from 'http';
+import {BasicService} from './BasicService';
+
+export class RequestService extends BasicService{
+  constructor(store) {
+    super(store);
+    this.Http_get = get;
+    this.Http_request = request;
   }
 
-  get(requestLink, ...args) {
-    let buffer = null;
-
-    if(args) {
-      buffer = new FormData();
-      args.map(el => buffer.append(el.type, el.data));
-      console.log(buffer);
-    }
-    this.Http.open('GET', requestLink);
-    this.Http.send(args);
-    return new Promise((resolve, reject) => {
-      this.Http.onreadystatechange = (xhr) => {
-        if(this.Http.readyState === 4){
-          resolve(xhr.response);
-        }
-      };
+  get(requestLink) {
+    return new Promise((resolve,reject) => {
+      this.Http_get(requestLink, (resp) => {
+        let response = null;
+        resp.on('data', (chunck) => {
+          if(!response)
+            response = chunck;
+          else
+            response += chunck;
+        });
+        
+        resp.on('end', () => {
+          resolve(response);
+        })
+      }).on('error', (err) => {
+        reject(err)
+      });
     })
   }
 
-  post() {
-    this.Http.open('GET', requestLink);
-    this.Http.send(args || null);
+  post(requestLink, opts) {
     return new Promise((resolve, reject) => {
-      this.Http.onreadystatechange = (xhr) => {
-        if(this.Http.readyState === 4){
-          try{
-            let res = JSON.parse(xhr.response);
-            this.reset();
-            resolve(res);
-          }catch(err) {
-            reject(err);
-          }
-        }
-      };
-    })
-  }
-
-  reset() {
-    this.Http = new XMLHttpRequest()
-    this.Http.onreadystatechange = null;
+      this.Http_request('POST', requestLink, opts, function(resp) {
+        resolve('404: API POST NOT ENABLED !');
+        reject(new Error('404: API POST NOT ENABLED !'));
+      })
+    });
   }
 }
