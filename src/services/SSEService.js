@@ -1,5 +1,6 @@
 import {BasicService} from './BasicService';
 import {Store} from '../Store';
+import {config} from '../../default.config';
 
 export class SSEService extends BasicService{
 
@@ -33,10 +34,16 @@ export class SSEService extends BasicService{
     throw new Error(err.message);
   }
   
+  emit(event_name, data) {
+    const socket = window.socket;
+    socket.emit(event_name, data);
+  }
+  
   start() {
-    const io = require('socket.io')(4200);
+    const io = require('socket.io')(config.SOCKET_IO_PORT);
     io.on('connection', function(socket) {
-      socket.emit('start', {});
+      window.socket = socket;
+      socket.emit('start', {items: this.store.getConfigProperty('items')});
     })
   }
 }
