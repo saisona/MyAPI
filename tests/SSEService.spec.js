@@ -12,11 +12,11 @@ describe('#SSEService', function() {
       const onNewMessage = function() {
         return false;
       };
-      const sseService = new SSEService('http://api.github.com', onKeyDown, onNewMessage);
+      const sseService = new SSEService('http://localhost:4200', onKeyDown, onNewMessage);
       return sseService !== null;
     });
 
     should(it('should throw an error', function () {
       const sseService = new SSEService();
-    })).not.equal(null);
+    })).throw('path from listener is missing !');
 });

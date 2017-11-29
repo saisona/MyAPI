@@ -2,13 +2,20 @@ import {config} from "../default.config";
 import {__init, app, newRoute} from './helpers';
 import {Store} from './Store';
 import {AuthenticationService} from './services/AuthenticationService';
+import {SSEService} from './services/SSEService';
 
 export class Application {
   constructor () {
     this.app =  app();
     this._store = null;
-    __init(this.app);
+    this._event = new SSEService(config.HOST+config.SOCKET_IO_PORT);
+    __init(this.app, this._event);
     this.authService = new AuthenticationService(null);
+  }
+  
+  
+  emit(event_name, data) {
+    this._event.emit(event_name, data);
   }
   
   
