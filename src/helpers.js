@@ -15,7 +15,3 @@ export function __init(app) {
 export function app() {
   return new express();
 }
-
-export function newRoute() {
-  return new express.Router();
-}
