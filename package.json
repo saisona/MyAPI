@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node $NODE_DEBUG_OPTION dist/index.js",
     "start:dev": "nodemon $NODE_DEBUG_OPTION dist/index.js",
-    "build": "./node_modules/babel-cli/bin/babel.js src tests index.js -d dist",
-    "mocha": "mocha ./dist/**/*.js --require babel-polyfill --compilers js:babel-register",
-    "test": "npm run mocha"
+    "build": "rm -rf dist && ./node_modules/babel-cli/bin/babel.js src -d dist",
+    "mocha": "mocha ./dist/**/*.js ",
+    "test": "npm run build && npm run mocha"
   },
   "keywords": [
     "API",
@@ -19,9 +19,11 @@
   "dependencies": {
     "basic-config-store": "0.0.6",
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
-    "gapi": "0.0.3",
+    "googleapis": "^23.0.0",
+    "helmet": "^3.9.0",
     "mocha": "^4.0.1",
     "morgan": "^1.9.0",
     "node-storage": "0.0.7",

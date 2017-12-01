@@ -1,5 +1,5 @@
 const fs = require('fs');
-import {config} from '../default.config';
+import {config} from './default.config';
 
 export class Store {
   

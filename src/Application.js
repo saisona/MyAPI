@@ -1,14 +1,16 @@
-import {config} from "../default.config";
+import {config} from "./default.config";
 import {__init, app, newRoute} from './helpers';
 import {Store} from './Store';
-import {AuthenticationService} from './services/AuthenticationService';
+import {AuthenticationService, GoogleService} from './services';
+import {User} from './User';
 
 export class Application {
   constructor () {
     this.app =  app();
     this._store = null;
+    this._services = new Map();
     __init(this.app);
-    this.authService = new AuthenticationService(null);
+    this.init(new User(1405006118, 'badhrc'));
   }
   
   
@@ -20,11 +22,19 @@ export class Application {
     return this._store;
   }
   
+  addService(serviceName, service) {
+    this._services.set(serviceName, service);
+  }
+  
+  getService(name) {
+    return this._services.get(name)
+  }
+  
+  
   /**
    * Start the API application
    */
   run() {
-    
     this.app.listen(config.port, function() {
       console.log(`Running at 0.0.0.0 :${config.port}`);
     });
@@ -38,7 +48,8 @@ export class Application {
   init(user) {
     const uid = user.uid;
     this._store = new Store(null, uid);
-    this.authService.init(this._store);
+    this.addService('Auth', new AuthenticationService(this.store));
+    this.addService('Google', new GoogleService(this.store));
   }
   
   /**

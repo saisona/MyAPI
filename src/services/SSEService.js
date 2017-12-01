@@ -5,7 +5,7 @@ export class SSEService extends BasicService{
   constructor(pathSSE, ...args) {
     super(null);
     if(!pathSSE) {
-      throw new Error("path from listener is missing !");
+      throw new Error("Path from listener is missing !");
     }
     this.listeners = [];
     for( let i=0; i < args.length; i++ ) {

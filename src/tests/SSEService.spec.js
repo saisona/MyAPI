@@ -1,6 +1,5 @@
-import {SSEService} from '../src/services/SSEService';
-const mocha = require('mocha');
-const should = require('should');
+import {SSEService} from '../services/SSEService';
+const expect = require('chai').expect;
 
 
 describe('#SSEService', function() {
@@ -15,8 +14,5 @@ describe('#SSEService', function() {
       const sseService = new SSEService('http://api.github.com', onKeyDown, onNewMessage);
       return sseService !== null;
     });
-
-    should(it('should throw an error', function () {
-      const sseService = new SSEService();
-    })).not.equal(null);
+  
 });
