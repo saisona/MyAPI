@@ -3,6 +3,7 @@ import {__init, app, newRoute} from './helpers';
 import {Store} from './Store';
 import {AuthenticationService, GoogleService} from './services';
 import {User} from './User';
+import {GithubService} from './services/GithubService';
 
 export class Application {
   constructor () {
@@ -50,6 +51,7 @@ export class Application {
     this._store = new Store(null, uid);
     this.addService('Auth', new AuthenticationService(this.store));
     this.addService('Google', new GoogleService(this.store));
+    this.addService('Github', new GithubService(this.store));
   }
   
   /**
