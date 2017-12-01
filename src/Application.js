@@ -4,6 +4,7 @@ import {Store} from './Store';
 import {AuthenticationService, GoogleService} from './services';
 import {User} from './User';
 
+
 export class Application {
   constructor () {
     this.app =  app();
@@ -30,11 +31,11 @@ export class Application {
     return this._services.get(name)
   }
   
-  
-  /**
+    /**
    * Start the API application
    */
   run() {
+    
     this.app.listen(config.port, function() {
       console.log(`Running at 0.0.0.0 :${config.port}`);
     });

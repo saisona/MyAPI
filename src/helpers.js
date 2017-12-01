@@ -3,6 +3,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+
 export function __init(app) {
   app.use(cors());
   app.use(express.static('public'));
