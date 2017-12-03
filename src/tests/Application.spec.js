@@ -9,7 +9,7 @@ describe('Application Primary', function() {
     const app = new Application();
     app.getService('Google').handle('calendar').then(response => {
       if(response.length > 0) done();
-      else done(new Error('Wrong returned value, Expected 8, returned => ', response))
+      else done(new Error('Wrong returned value, null response !'));
     }, err => {
       done(err);
     })

@@ -1,8 +1,6 @@
 import {SSEService} from '../services/SSEService';
-const expect = require('chai').expect;
 
-
-describe('#SSEService', function() {
+describe('SSE Service', function() {
 
     it('should success at anytime', function() {
       const onKeyDown = function() {

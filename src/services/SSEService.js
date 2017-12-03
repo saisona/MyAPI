@@ -1,6 +1,9 @@
-export class SSEService {
+import {BasicService} from './BasicService';
 
-  constructor(pathSSE, ...args) {
+export class SSEService extends BasicService{
+
+  constructor(store, pathSSE, ...args) {
+    super(store);
     if(!pathSSE) {
       throw new Error("Path from listener is missing !");
     }

@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 import {config} from './default.config';
 
-export function __init(app) {
+
+export function __init (app) {
   app.use(cors());
   app.use(express.static('public'));
   app.use(morgan('dev'));
@@ -14,20 +15,19 @@ export function __init(app) {
   app.use(helmet());
 }
 
-export function app() {
+export function app () {
   return new express();
 }
 
-export function initGitHubAPI() {
-  const  GitHubAPI = require('github');
+export function initGitHubAPI () {
+  const GitHubAPI = require('github');
   const gitAPI = new GitHubAPI({
     protocol: 'https',
-    rejectUnauthorized: true, // default: true
+    rejectUnauthorized: false // default: true
   });
   gitAPI.authenticate({
     type: 'token',
-    
-    token: config.GITHUB_TOKEN
+    token: config.GITHUB_API_KEY
   });
   return gitAPI;
 }

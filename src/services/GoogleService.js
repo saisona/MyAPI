@@ -38,7 +38,6 @@ export class GoogleService extends BasicService {
   
   
   handleCalendar (opts) {
-    console.log(opts);
     let options_query = {
       key: config.GOOGLE_API_KEY,
       calendarId: 'alexandre.saison.pro@gmail.com',
@@ -68,5 +67,14 @@ export class GoogleService extends BasicService {
           return resolve(events);
       });
     });
+  }
+  
+  
+  handleGmail(opts) {
+    if(!!opts) {
+    
+    } else {
+      googleapis.gmail()
+    }
   }
 }
