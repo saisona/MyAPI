@@ -31,3 +31,9 @@ export function initGitHubAPI () {
   });
   return gitAPI;
 }
+
+export default ACTION_TYPE = {
+  NOTIFICATION : 'notifications',
+  PROFILE : 'me',
+  
+};

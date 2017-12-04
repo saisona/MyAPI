@@ -71,8 +71,5 @@ export class Application {
     return this.app.post(route, callback);
   }
   
-  
-  static route (path) {
-    return newRoute(path);
-  }
+
 }

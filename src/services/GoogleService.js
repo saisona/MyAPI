@@ -25,9 +25,13 @@ export class GoogleService extends BasicService {
         case 'calendar':
           this.handleCalendar(options).then(events => {
             resolve(events);
-          }).catch(err => {
-            reject(err);
-          });
+          }).catch(err => reject(err));
+          break;
+        case 'gmail':
+          this.handleGmail(options).then(response => {
+            console.log(response);
+            resolve(response);
+          }).catch(err => reject(err));
           break;
         default :
           reject(new Error('Not defined action !'));
@@ -70,11 +74,11 @@ export class GoogleService extends BasicService {
   }
   
   
-  handleGmail(opts) {
-    if(!!opts) {
-    
-    } else {
-      googleapis.gmail()
-    }
-  }
+  // handleGmail(opts) {
+  //   if(!!opts) {
+  //
+  //   } else {
+  //     googleapis.gmail('v1').
+  //   }
+  // }
 }

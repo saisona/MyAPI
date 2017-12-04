@@ -1,6 +1,6 @@
 import {BasicService} from './BasicService';
 import {initGitHubAPI} from '../helpers';
-import {config} from '../default.config';
+import {} from '../helpers';
 
 export class GithubService extends BasicService {
   
@@ -13,7 +13,7 @@ export class GithubService extends BasicService {
   handle (action_type) {
     return new Promise((resolve, reject) => {
       switch (action_type) {
-        case 'notifications':
+        case ACTION_TYPE.NOTIFICATION:
           this.getNotifications({
             all: true,
             participating: true
@@ -43,3 +43,7 @@ export class GithubService extends BasicService {
     return this.service.users.get({});
   }
 }
+
+exports.ACTION_TYPE = {
+  NOTIFICATION: 'notifications'
+};
