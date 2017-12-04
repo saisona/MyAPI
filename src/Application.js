@@ -71,5 +71,12 @@ export class Application {
     return this.app.post(route, callback);
   }
   
-
+  /**
+   *
+   * @param {Router} fn router function
+   */
+  use(fn) {
+    this.app.use(fn)
+  }
+  
 }

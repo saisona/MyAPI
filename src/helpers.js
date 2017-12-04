@@ -36,3 +36,7 @@ export const ACTION_TYPE = {
   NOTIFICATION : 'notifications',
   PROFILE : 'me',
 };
+
+export function Router() {
+  return new express.Router;
+}
