@@ -1,6 +1,5 @@
 import {BasicService} from './BasicService';
-import {initGitHubAPI} from '../helpers';
-import {} from '../helpers';
+import {initGitHubAPI, ACTION_TYPE} from '../helpers';
 
 export class GithubService extends BasicService {
   
@@ -19,7 +18,7 @@ export class GithubService extends BasicService {
             participating: true
           }).then(data => data.data).then(notifications => resolve(notifications)).catch(err => reject(err));
           break;
-        case 'me':
+        case ACTION_TYPE.PROFILE:
           this.getAuthenticatedUser()
             .then(data => data.data)
             .then(user => resolve(user))
