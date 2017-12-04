@@ -30,7 +30,8 @@
     "mocha": "^4.0.1",
     "morgan": "^1.9.0",
     "node-storage": "0.0.7",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "request": "latest"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

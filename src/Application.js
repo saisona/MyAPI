@@ -1,7 +1,7 @@
 import {config} from "./default.config";
 import {__init, app} from './helpers';
 import {Store} from './Store';
-import {AuthenticationService, GoogleService, GithubService, SSEService} from './services';
+import {AuthenticationService, GoogleService, GithubService, SSEService, RequestService} from './services';
 import {User} from './User';
 
 export class Application {
@@ -54,7 +54,9 @@ export class Application {
     this.addService('Google', new GoogleService(this.store));
     this.addService('Github', new GithubService(this.store));
     this.addService('SSE', new SSEService(this.store, 'localhost:' + config.port));
+    this.addService('Request', new RequestService(this.store));
     this._store.addToStore('app', this.app);
+    this._store.setConstantToStore('consts', new Map());
   }
   
   
