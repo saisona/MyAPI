@@ -1,5 +1,5 @@
 import {config} from "./default.config";
-import {__init, app, newRoute} from './helpers';
+import {__init, app,} from './helpers';
 import {Store} from './Store';
 import {AuthenticationService, GoogleService} from './services';
 import {User} from './User';
@@ -66,7 +66,13 @@ export class Application {
     return this.app.post(route, callback);
   }
   
-  static route(path) {
-    return newRoute(path)
+  
+  /**
+   *
+   * @param {Router} fn router function
+   */
+  use(fn) {
+    this.app.use(fn)
   }
+  
 }

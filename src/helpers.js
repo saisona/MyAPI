@@ -16,6 +16,7 @@ export function app() {
   return new express();
 }
 
-export function newRoute() {
-  return new express.Router();
+export function Router() {
+  return new express.Router;
 }
+
