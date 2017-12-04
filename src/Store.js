@@ -19,6 +19,11 @@ export class Store {
     this.storage.setConfigProperty('items', this.items)
   }
   
+  getFromStore(key) {
+    const storageItems = this.storage.getConfigProperty('items');
+    return storageItems.get(key);
+  }
+  
   save(uid) {
     const path = `../saves/stores/${this.uid || uid}`;
     const fd = fs.openSync(path,'a+');

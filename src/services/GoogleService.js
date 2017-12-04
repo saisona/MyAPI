@@ -72,13 +72,4 @@ export class GoogleService extends BasicService {
       });
     });
   }
-  
-  
-  // handleGmail(opts) {
-  //   if(!!opts) {
-  //
-  //   } else {
-  //     googleapis.gmail('v1').
-  //   }
-  // }
 }

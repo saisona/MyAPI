@@ -54,6 +54,7 @@ export class Application {
     this.addService('Google', new GoogleService(this.store));
     this.addService('Github', new GithubService(this.store));
     this.addService('SSE', new SSEService(this.store, 'localhost:' + config.port));
+    this._store.addToStore('app', this.app);
   }
   
   
