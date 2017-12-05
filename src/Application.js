@@ -1,7 +1,10 @@
 import {config} from "./default.config";
 import {__init, app} from './helpers';
 import {Store} from './Store';
-import {AuthenticationService, GoogleService, GithubService, SSEService, RequestService} from './services';
+import {
+  AuthenticationService, GoogleService, GithubService, SSEService, RequestService, LogService,
+  EventEmitter
+} from './services';
 import {User} from './User';
 
 export class Application {
@@ -10,7 +13,8 @@ export class Application {
     this._store = null;
     this._services = new Map();
     __init(this.app);
-    this.init(new User(Math.floor(Math.random()*Number.MAX_SAFE_INTEGER), undefined));
+    this.init();
+    LogService.info('APPLICATION', 'Starting APP');
   }
   
   
@@ -24,12 +28,25 @@ export class Application {
   
   
   addService (serviceName, service) {
-    this._services.set(serviceName, service);
+    const fs = require('fs');
+    fs.readdir('./src/services', (err, files) => {
+      if(err) LogService.error('Application', err.message);
+      else {
+        files = files.map(file => file.split('.')[0]);
+        const exists = files.some((value) => value === (serviceName+'Service'));
+        if(exists) {
+          LogService.init(serviceName);
+          this._services.set(serviceName, service);
+        }
+        else LogService.error('Application', serviceName + ' doesn\'t exists !');
+      }
+    });
+    
   }
   
   
   getService (name) {
-    return this._services.get(name);
+    return this._services.get(name) || null;
   }
   
   
@@ -38,23 +55,21 @@ export class Application {
    */
   run () {
     this.app.listen(config.port, function () {
-      console.log(`Running at 0.0.0.0 :${config.port}`);
+      LogService.log(`APPLICATION`, 'Listening on 0.0.0.0:'+ config.port);
     });
   }
   
   
   /**
    * Init the store and the Authentication Service with the User id => UID
-   * @param user
    */
-  init (user) {
-    const uid = user.uid;
-    this._store = new Store(null, uid);
-    this.addService('Auth', new AuthenticationService(this.store));
+  init () {
+    this._store = new Store(null);
     this.addService('Google', new GoogleService(this.store));
     this.addService('Github', new GithubService(this.store));
     this.addService('SSE', new SSEService(this.store, 'localhost:' + config.port));
     this.addService('Request', new RequestService(this.store));
+    this.addService('EventEmitter', new EventEmitter());
     this._store.addToStore('app', this.app);
     this._store.setConstantToStore('consts', new Map());
   }

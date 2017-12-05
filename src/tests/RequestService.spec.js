@@ -13,6 +13,6 @@ describe('RequestService', function () {
         done();
       else
         done(new Error('Google can\'t be accessed due to connection issue or anything else'))
-    });
+    }).catch(err => done(err));
   });
 });

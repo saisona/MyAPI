@@ -1,5 +1,5 @@
-import {BasicService} from './BasicService';
 import {config} from '../default.config';
+import {BasicService} from './BasicService';
 
 const googleapis = require('googleapis');
 
@@ -8,7 +8,6 @@ export class GoogleService extends BasicService {
   constructor (store) {
     super(store);
     const oAuth2 = googleapis.auth;
-    
     this.auth = new oAuth2.OAuth2(config.GOOGLE_AUTH_ID, config.GOOGLE_AUTH_SECRET, 'http://localhost:3000/google/auth');
     oAuth2.fromAPIKey(config.GOOGLE_API_KEY, (err, res) => {
       if (err) throw err;
@@ -27,12 +26,6 @@ export class GoogleService extends BasicService {
             resolve(events);
           }).catch(err => reject(err));
           break;
-        case 'gmail':
-          this.handleGmail(options).then(response => {
-            console.log(response);
-            resolve(response);
-          }).catch(err => reject(err));
-          break;
         default :
           reject(new Error('Not defined action !'));
           break;
@@ -44,7 +37,7 @@ export class GoogleService extends BasicService {
   handleCalendar (opts) {
     let options_query = {
       key: config.GOOGLE_API_KEY,
-      calendarId: 'alexandre.saison.pro@gmail.com',
+      calendarId: 'alexandre.saison.pro@gmail.com'
     };
     if (opts) {
       /*
@@ -66,7 +59,7 @@ export class GoogleService extends BasicService {
         }
         const events = response.items;
         if (!events)
-          return resolve({events: null});
+          return reject(new Error('No Event existing !'));
         else
           return resolve(events);
       });

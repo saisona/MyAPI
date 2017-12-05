@@ -1,13 +1,15 @@
-import {AuthenticationService} from './AuthenticationService';
 import {RequestService} from './RequestService';
 import {SSEService} from './SSEService';
 import {GoogleService} from './GoogleService';
 import {GithubService} from './GithubService';
+import {LogService} from './LogService';
+import {EventEmitter} from './EventEmitterService';
 
 export {
-  AuthenticationService,
   RequestService,
   SSEService,
   GoogleService,
-  GithubService
+  GithubService,
+  LogService,
+  EventEmitter
 }

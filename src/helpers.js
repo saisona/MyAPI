@@ -3,7 +3,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-import {config} from './default.config';
 
 
 export function __init (app) {
