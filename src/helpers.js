@@ -21,20 +21,18 @@ export function app () {
 
 export function initGitHubAPI () {
   const GitHubAPI = require('github');
-  const gitAPI = new GitHubAPI({
+  return new GitHubAPI({
     protocol: 'https',
     rejectUnauthorized: false // default: true
   });
-  gitAPI.authenticate({
-    type: 'token',
-    token: config.GITHUB_API_KEY
-  });
-  return gitAPI;
+  
 }
 
 export const ACTION_TYPE = {
   NOTIFICATION : 'notifications',
   PROFILE : 'me',
+  AUTHENTICATION: 'auth',
+  AUTHENTICATION_SUCCESS: 'auth/success',
 };
 
 export function Router() {
