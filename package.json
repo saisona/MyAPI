@@ -27,12 +27,13 @@
     "github": "^12.1.0",
     "googleapis": "^23.0.0",
     "helmet": "^3.9.0",
+    "http2": "^3.3.7",
+    "lodash": "latest",
     "mocha": "^4.0.1",
     "morgan": "^1.9.0",
     "node-storage": "0.0.7",
-    "socket.io": "^2.0.4",
     "request": "latest",
-    "lodash": "latest"
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
