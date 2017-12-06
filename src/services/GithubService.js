@@ -48,10 +48,7 @@ export class GithubService extends BasicService {
   
   
   getNotifications () {
-    return this.service.activity.getNotifications({
-      all: true,
-      participating: true
-    });
+    return this.service.activity.getNotifications();
   }
   
   

@@ -1,6 +1,6 @@
 import {config} from "./default.config";
 import {__init, app} from './helpers';
-import {EventEmitter, GithubService, GoogleService, LogService, RequestService, SSEService} from './services';
+import {GithubService, GoogleService, LogService, RequestService, SSEService} from './services';
 import {Store} from './Store';
 
 export class Application {
@@ -65,7 +65,6 @@ export class Application {
     this.addService('Github', new GithubService(this.store));
     this.addService('SSE', new SSEService(this.store, 'localhost:' + config.port));
     this.addService('Request', new RequestService(this.store));
-    this.addService('EventEmitter', new EventEmitter());
     this._store.addToStore('app', this.app);
     this._store.setConstantToStore('consts', new Map());
   }
