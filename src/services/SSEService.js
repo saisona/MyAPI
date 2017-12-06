@@ -14,20 +14,14 @@ export class SSEService extends BasicService{
       }
       this.listeners.push(args[i]);
     }
-  }
-
-  handleMessage(msg) {
-    console.log(`MSG => ${msg}`);
-  }
-  
-  static handleError(err) {
-    throw new Error(err.message);
+    this.socket = null;
   }
   
   start() {
-    const io = require('socket.io')(3000);
-    io.on('connection', function(socket) {
-      socket.emit('start', {});
-    })
+    // TODO : Handle Start
+  }
+  
+  stop() {
+    // TODO : Handle stop
   }
 }
