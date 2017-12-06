@@ -3,7 +3,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-export function __init(app) {
+
+
+export function __init (app) {
   app.use(cors());
   app.use(express.static('public'));
   app.use(morgan('dev'));
@@ -12,10 +14,25 @@ export function __init(app) {
   app.use(helmet());
 }
 
-export function app() {
+export function app () {
   return new express();
 }
 
-export function newRoute() {
-  return new express.Router();
+export function initGitHubAPI () {
+  const GitHubAPI = require('github');
+  return new GitHubAPI({
+    protocol: 'https',
+    rejectUnauthorized: false // default: true
+  });
+  
+}
+
+export const ACTION_TYPE = {
+  NOTIFICATION : 'notifications',
+  PROFILE : 'me',
+  AUTHENTICATION: 'auth'
+};
+
+export function Router() {
+  return new express.Router;
 }

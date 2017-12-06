@@ -1,6 +1,9 @@
-export class SSEService {
+import {BasicService} from './BasicService';
 
-  constructor(pathSSE, ...args) {
+export class SSEService extends BasicService{
+
+  constructor(store, pathSSE, ...args) {
+    super(store);
     if(!pathSSE) {
       throw new Error("Path from listener is missing !");
     }
@@ -11,20 +14,14 @@ export class SSEService {
       }
       this.listeners.push(args[i]);
     }
-  }
-
-  handleMessage(msg) {
-    console.log(`MSG => ${msg}`);
-  }
-  
-  static handleError(err) {
-    throw new Error(err.message);
+    this.socket = null;
   }
   
   start() {
-    const io = require('socket.io')(3000);
-    io.on('connection', function(socket) {
-      socket.emit('start', {});
-    })
+    // TODO : Handle Start
+  }
+  
+  stop() {
+    // TODO : Handle stop
   }
 }

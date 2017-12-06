@@ -1,29 +1,34 @@
 import {Application} from './Application';
-import {RequestService, AuthenticationService} from './services/index';
 
 const app = new Application();
-const router = Application.route();
+const githubRouter = require('./routers/GithubRouter')(app);
+const googleRouter = require('./routers/GoogleRouter')(app);
+
+/**
+ *  ROUTES HANDLERS
+ */
+app.use(githubRouter);
+app.use(googleRouter);
+
+app.get('/', function(req,res) {
+  res.redirect('https://documenter.getpostman.com/view/1161028/rand-ia-api-2017/7EK5qh1');
+});
+
+app.get('/events', function (req, res) {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  
+  // send a ping approx every 2 seconds
+  const timer = setInterval(() => {
+    res.write('data: ping\n\n');
+    
+    // !!! this is the important part
+    res.flush()
+  }, 2000);
+  
+  res.on('close', function () {
+    clearInterval(timer)
+  })
+});
+
 app.run();
-
-router.get('/', function(req,res) {
-  res.send('Hello World')
-});
-
-router.get('/github', function(req, res) {
-  let Http = new RequestService();
-  Http.get('http://api.github.com').then(data => {
-    res.send(data);
-  }).catch(err => console.log(`[ERROR] ${err.message || err}`));
-});
-
-app.get('/google/:action', function(req, res) {
-  const action_type = req.params.action;
-  const query = Object.keys(req.query).length > 0 ? req.query : null;
-  app.getService('Google').handle(action_type, query).then(events => {
-    res.jsonp(events);
-  }).catch(err => res.status(500).send({message: err.message, code : err.status, stack: err.stack}));
-});
-
-router.post('/auth', function (req,res) {
-  const authService = new AuthenticationService(app.store);
-});

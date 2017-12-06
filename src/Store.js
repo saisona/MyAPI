@@ -3,39 +3,44 @@ import {config} from './default.config';
 
 export class Store {
   
-  constructor (storage, uid= null) {
+  constructor (storage) {
     this.storage = storage || config.store;
-    if(this.storage.getConfigProperty('items'))
+    if (this.storage.getConfigProperty('items'))
       this.items = this.storage.getConfigProperty('items');
     else
       this.items = new Map();
-    this.uid = uid;
-
   }
   
   
-  addToStore(key,value) {
+  addToStore (key, value) {
     this.items.set(key, value);
-    this.storage.setConfigProperty('items', this.items)
+    this.storage.setConfigProperty('items', this.items);
   }
   
-  save(uid) {
-    const path = `../saves/stores/${this.uid || uid}`;
-    const fd = fs.openSync(path,'a+');
-    fs.write(fd, JSON.stringify({items : this.items.get('items')}), (err) => {
-      if(err) throw err;
-      console.log(`Saved to ${path}`);
-    })
+  
+  setConstantToStore (key, value) {
+    const storage = this.storage.getConfigProperty('consts');
+    const previousVersion = storage !== undefined;
+    if (previousVersion) {
+      const newVersion = new Map(storage).set(key, value);
+      this.storage.setConfigProperty('consts', newVersion);
+    }
+    else {
+      const initVersion = new Map().set(key, value);
+      this.storage.setConfigProperty('consts', initVersion);
+    }
   }
   
-  sync(uid) {
-    const path = `../saves/stores/${this.uid || uid}`;
-    const fd = fs.openSync(path,'a+');
-    fs.readFile(path, (err, json) => {
-      if(err) throw err;
-      console.log(JSON.parse(json));
-      this.items = JSON.parse(json).items;
-      console.log('[SYNC] Finished success')
-    })
+  
+  getConstantFromStore (key) {
+    const storageConstants = this.storage.getConfigProperty('consts');
+    return storageConstants.get(key);
   }
+  
+  
+  getFromStore (key) {
+    const storageItems = this.storage.getConfigProperty('items');
+    return storageItems.get(key);
+  }
+  
 }
