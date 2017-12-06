@@ -15,4 +15,3 @@ app.use(googleRouter);
 app.get('/', function(req,res) {
   res.redirect('https://documenter.getpostman.com/view/1161028/rand-ia-api-2017/7EK5qh1');
 });
-

@@ -30,8 +30,7 @@ export function initGitHubAPI () {
 export const ACTION_TYPE = {
   NOTIFICATION : 'notifications',
   PROFILE : 'me',
-  AUTHENTICATION: 'auth',
-  AUTHENTICATION_SUCCESS: 'auth/success',
+  AUTHENTICATION: 'auth'
 };
 
 export function Router() {

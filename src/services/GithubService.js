@@ -1,6 +1,7 @@
 import {config} from '../default.config';
 import {ACTION_TYPE, initGitHubAPI} from '../helpers';
 import {BasicService} from './BasicService';
+import {LogService} from './LogService';
 
 export class GithubService extends BasicService {
   
@@ -16,6 +17,7 @@ export class GithubService extends BasicService {
   
   
   handle (action_type, params) {
+    LogService.log('Github Service', 'Enter handle with => ' + action_type);
     return new Promise((resolve, reject) => {
       if (this.store.getConstantFromStore('API_KEY_GITHUB')) {
         this.service = this.authAPIGithub();
@@ -32,14 +34,15 @@ export class GithubService extends BasicService {
               .then(user => resolve(user))
               .catch(err => reject(err));
             break;
-          case ACTION_TYPE.AUTHENTICATION:
-            GithubService.GithubAuthentication(config.GITHUB_AUTH_ID, params.response);
-            resolve();
-            break;
           default :
             return reject(new Error(`${action_type} is not implemented yet !`));
         }
-      } else reject(new Error('Need to be Authenticated to handle request !'))
+      } else {
+        if (action_type === ACTION_TYPE.AUTHENTICATION)
+          GithubService.GithubAuthentication(config.GITHUB_AUTH_ID, params.response);
+        else
+          return reject(new Error(`${action_type} is not implemented yet !`));
+      }
     });
   }
   
