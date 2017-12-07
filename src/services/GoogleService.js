@@ -1,5 +1,6 @@
 import {config} from '../default.config';
 import {BasicService} from './BasicService';
+// import {Observable} from 'rxjs/observable';
 
 const googleapis = require('googleapis');
 
@@ -22,9 +23,9 @@ export class GoogleService extends BasicService {
     return new Promise((resolve, reject) => {
       switch (action_type) {
         case 'calendar':
-          this.handleCalendar(options).then(events => {
-            resolve(events);
-          }).catch(err => reject(err));
+          this.handleCalendar(options)
+            .then(events => resolve(events))
+            .catch(err => reject(err));
           break;
         default :
           reject(new Error('Not defined action !'));
@@ -54,14 +55,10 @@ export class GoogleService extends BasicService {
     return new Promise((resolve, reject) => {
       const calendar = googleapis.calendar('v3');
       calendar.events.list(options_query, function (err, response) {
-        if (err) {
-          return reject(err);
-        }
+        if (err) reject(err);
         const events = response.items;
-        if (!events)
-          return reject(new Error('No Event existing !'));
-        else
-          return resolve(events);
+        if (!events) reject(new Error('No Event existing !'));
+        else resolve(events);
       });
     });
   }

@@ -1,6 +1,7 @@
 import {config} from '../default.config';
 import {Router} from '../helpers';
 
+
 const app = new Router();
 
 module.exports = function (application) {

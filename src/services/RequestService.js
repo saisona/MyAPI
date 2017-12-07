@@ -24,7 +24,7 @@ export class RequestService extends BasicService {
       this.Http_request(requestLink, {json: obj}, (error, response, body) => {
         if (error) reject(error);
         else {
-          resolve({response: response, body: body});
+          resolve({body: body});
         }
       });
     });
