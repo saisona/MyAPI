@@ -4,7 +4,6 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
-
 export function __init (app) {
   app.use(cors());
   app.use(express.static('public'));
@@ -24,16 +23,15 @@ export function initGitHubAPI () {
     protocol: 'https',
     rejectUnauthorized: false // default: true
   });
-  
 }
 
 export const ACTION_TYPE = {
-  NOTIFICATION : 'notifications',
-  PROFILE : 'me',
+  NOTIFICATION: 'notifications',
+  PROFILE: 'me',
   AUTHENTICATION: 'auth'
 };
 
-export function Router() {
+export function Router () {
   return new express.Router;
 }
 
