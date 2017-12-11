@@ -54,6 +54,12 @@ export class LogService {
     copyArgs.push(colors.Reset);
     console.log.apply(null, copyArgs);
   }
+  
+  static file(className, user, ...data) {
+    const fs = require('fs');
+    fs.writeFileSync(`./${user.id}`,JSON.stringify(data));
+    return fs.existsSync(`./${user.id}`);
+  }
 }
 
 export const colors = {
