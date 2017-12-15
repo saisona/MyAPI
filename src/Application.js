@@ -1,8 +1,8 @@
 import {config} from "./default.config";
-import {__init, app} from './helpers';
-
+import {__init, ACTION_TYPE, app} from './helpers';
 
 import {GithubService, GoogleService, LogService, RequestService, SSEService} from './services';
+import {WebSocketService} from './services/WebSocketService';
 import {Store} from './Store';
 
 export class Application {
@@ -39,12 +39,26 @@ export class Application {
         else LogService.error('Application', serviceName + ' doesn\'t exists !');
       }
     });
-    
   }
   
   
   getService (name) {
     return this._services.get(name) || null;
+  }
+  
+  
+  subscribe (name, socket, opts) {
+    return new Promise((resolve, reject) => {
+      this.getService('WebSocket').handle(ACTION_TYPE.SUBSCRIPTION, opts.payload, this)
+        .then(data => {
+          socket.emit('subscription_data', {channel: 'Google', data: data});
+          resolve(data);
+        })
+        .catch(err => {
+          LogService.error('WEB_SOCKET', 'Failure on : ' + err.message);
+          reject(err);
+        });
+    });
   }
   
   
@@ -57,6 +71,10 @@ export class Application {
     });
   }
   
+  stop() {
+    process.exit(0);
+  }
+  
   
   /**
    * Init the store and the Authentication Service with the User id => UID
@@ -67,8 +85,11 @@ export class Application {
     this.addService('Github', new GithubService(this.store));
     this.addService('SSE', new SSEService(this.store, 'localhost:' + config.port));
     this.addService('Request', new RequestService(this.store));
+    this.addService('WebSocket', new WebSocketService(this.store, new Map()));
     this._store.addToStore('app', this.app);
     this._store.setConstantToStore('consts', new Map());
+    global.Application = this;
+    return this._store.getFromStore('app') !== null;
   }
   
   
