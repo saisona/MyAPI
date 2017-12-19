@@ -21,7 +21,6 @@ app.use(googleRouter);
 app.get('/docs', function (req, res) {
   res.redirect('https://documenter.getpostman.com/view/1161028/rand-ia-api-2017/7EK5qh1');
 });
-
 app.post('/fake', function (req, res) {
   if(req.body) {
     res.jsonp(req.body);
@@ -29,12 +28,18 @@ app.post('/fake', function (req, res) {
     res.status(500).jsonp({errcode: 500, message: 'Fake endpoint need some body to be checked'});
   }
 });
+app.get('/json', function(req, res) {
+
+});
+
+app.get('/json/version', (req, res) => res.redirect('/version'));
 
 io.on('connection', (socket) => {
   app.getService('WebSocket').socket = socket;
   
-  socket.on('collect', function (data) {
+  socket.on('collect', (data) => {
     LogService.obj(`COLLECT`, data);
+    LogService.file('COLLECT', socket.id, data);
   });
   
   emitter.addListener('subscription_data', (data) => socket.emit('subscription_data', data));

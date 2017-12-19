@@ -66,9 +66,7 @@ export class Application {
    * Start the API application
    */
   run () {
-    this.app.listen(config.port, function () {
-      LogService.log(`APPLICATION`, 'Listening on 0.0.0.0:' + config.port);
-    });
+    this.app.listen(config.port);
   }
   
   stop() {
@@ -88,7 +86,7 @@ export class Application {
     this.addService('WebSocket', new WebSocketService(this.store, new Map()));
     this._store.addToStore('app', this.app);
     this._store.setConstantToStore('consts', new Map());
-    global.Application = this;
+    global.app = this;
     return this._store.getFromStore('app') !== null;
   }
   

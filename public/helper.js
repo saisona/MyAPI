@@ -1,8 +1,6 @@
 function getNavigator () {
-  let nVer = navigator.appVersion;
   let browserName = navigator.appName;
   let fullVersion = '' + parseFloat(navigator.appVersion);
-  let majorVersion = parseInt(navigator.appVersion, 10);
   let nameOffset, verOffset, ix;
   const nAgt = navigator.userAgent;
   
@@ -42,7 +40,7 @@ function getNavigator () {
   if ((ix = fullVersion.indexOf(" ")) !== -1)
     fullVersion = fullVersion.substring(0, ix);
   
-  majorVersion = parseInt('' + fullVersion, 10);
+  let majorVersion = parseInt('' + fullVersion, 10);
   if (isNaN(majorVersion)) {
     fullVersion = '' + parseFloat(navigator.appVersion);
     majorVersion = parseInt(navigator.appVersion, 10);
@@ -58,15 +56,102 @@ function getNavigator () {
 
 function generateCollect () {
   const navigator_data = getNavigator();
-  return {
-    payload: {
-      connection: window.navigator.connection.effectiveType,
-      platform: window.navigator.platform,
-      navigator: {
-        name: navigator_data.browserName,
-        fullVersion: navigator_data.fullVersion,
-        agent: navigator_data.nAgt
-      }
-    }
-  };
+  const connection = window.navigator.connection;
+  if (!navigator.getBattery) {
+    return getGeolocation().then(geolocation => {
+      return {
+        payload: {
+          connection: connection.effectiveType,
+          downlink: connection.downlink,
+          platform: window.navigator.platform,
+          navigator: {
+            name: navigator_data.browserName,
+            fullVersion: navigator_data.fullVersion,
+            agent: navigator_data.nAgt
+          },
+          geolocation: {
+            latitude: geolocation.coords.latitude,
+            longitude: geolocation.coords.longitude,
+            accuracy: geolocation.coords.accuracy + 'm',
+            altitude: geolocation.coords.altitude
+          }
+        }
+      };
+    }).catch(err => {
+      return {
+        payload: {
+          connection: connection.effectiveType,
+          downlink: connection.downlink,
+          platform: window.navigator.platform,
+          navigator: {
+            name: navigator_data.browserName,
+            fullVersion: navigator_data.fullVersion,
+            agent: navigator_data.nAgt
+          },
+          geolocation: {
+            err: err
+          }
+        }
+      };
+    });
+  } else
+    return navigator.getBattery().then(battery => {
+      return getGeolocation().then(geolocation => {
+        return {
+          payload: {
+            connection: connection.effectiveType,
+            downlink: connection.downlink,
+            platform: window.navigator.platform,
+            battery: `${battery.level * 100}%`,
+            navigator: {
+              name: navigator_data.browserName,
+              fullVersion: navigator_data.fullVersion,
+              agent: navigator_data.nAgt
+            },
+            geolocation: {
+              latitude: geolocation.coords.latitude,
+              longitude: geolocation.coords.longitude,
+              accuracy: geolocation.coords.accuracy + 'm',
+              altitude: geolocation.coords.altitude
+            }
+          }
+        };
+      }).catch(err => {
+        return {
+          payload: {
+            connection: connection.effectiveType,
+            downlink: connection.downlink,
+            platform: window.navigator.platform,
+            battery: `${battery.level * 100}%`,
+            navigator: {
+              name: navigator_data.browserName,
+              fullVersion: navigator_data.fullVersion,
+              agent: navigator_data.nAgt
+            },
+            geolocation: {
+              err: err
+            }
+          }
+        };
+      });
+    });
 }
+
+function getGeolocation () {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, options_geolocation);
+  });
+}
+
+const options_geolocation = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+
+
+
+
+
+
