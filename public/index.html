@@ -14,6 +14,7 @@
       socket.on('subscription_data', data => console.log('[SUBSCRIPTION] data => ', data));
       generateCollect().then(collect_data => socket.emit('collect', collect_data));
       fetch('http://localhost:3000/google/calendar');
+      fetch('http://localhost:3000/github/me');
 
     </script>
 </body>

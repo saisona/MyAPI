@@ -51,7 +51,7 @@ export class Application {
     return new Promise((resolve, reject) => {
       this.getService('WebSocket').handle(ACTION_TYPE.SUBSCRIPTION, opts.payload, this)
         .then(data => {
-          socket.emit('subscription_data', {channel: 'Google', data: data});
+          socket.emit('subscription_data', {channel: name, data: data});
           resolve(data);
         })
         .catch(err => {

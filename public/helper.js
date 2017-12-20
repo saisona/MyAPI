@@ -64,6 +64,7 @@ function generateCollect () {
           connection: connection.effectiveType,
           downlink: connection.downlink,
           platform: window.navigator.platform,
+          date: new Date(),
           navigator: {
             name: navigator_data.browserName,
             fullVersion: navigator_data.fullVersion,
@@ -82,6 +83,7 @@ function generateCollect () {
         payload: {
           connection: connection.effectiveType,
           downlink: connection.downlink,
+          date: new Date(),
           platform: window.navigator.platform,
           navigator: {
             name: navigator_data.browserName,
@@ -101,6 +103,7 @@ function generateCollect () {
           payload: {
             connection: connection.effectiveType,
             downlink: connection.downlink,
+            date: new Date(),
             platform: window.navigator.platform,
             battery: `${battery.level * 100}%`,
             navigator: {
@@ -121,6 +124,7 @@ function generateCollect () {
           payload: {
             connection: connection.effectiveType,
             downlink: connection.downlink,
+            date: new Date(),
             platform: window.navigator.platform,
             battery: `${battery.level * 100}%`,
             navigator: {

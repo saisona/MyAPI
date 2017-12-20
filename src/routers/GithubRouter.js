@@ -1,16 +1,24 @@
 import {config} from '../default.config';
 import {Router} from '../helpers';
+import {LogService} from '../services';
 
 
 const app = new Router();
 
-module.exports = function (application) {
+module.exports = function (application, emitter) {
   
   app.get('/github/:action', function (req, res) {
+    emitter.emit('subscription', {
+      type: 'SUBSCRIBE',
+      payload: {name: 'Github', opts: {action_type: req.params.action, socket: null}}
+    });
     application.getService('Github').handle(req.params.action, {
       request: req,
       response: res
-    }).then(response => res.status(200).jsonp(response))
+    }).then(response => {
+      emitter.emit('subscription_data', {channel: 'Github', data: response});
+      res.status(200).jsonp(response)
+    })
       .catch(err => res.status(500).jsonp(err.message));
   });
   
@@ -21,7 +29,7 @@ module.exports = function (application) {
       code: req.query.code
     }).then(response => {
       application.store.setConstantToStore('API_KEY_GITHUB', response.body.access_token);
-      console.log(`FROM ROUTER => ${application.store.getConstantFromStore('API_KEY_GITHUB')}`);
+      LogService.log('GITHUB_ROUTER', `API_KEY_GITHUB => ${application.store.getConstantFromStore('API_KEY_GITHUB')}`);
       res.status(201).jsonp(response.response);
     }).catch(err => res.status(500).send(err.message));
   });
