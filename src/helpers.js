@@ -1,5 +1,3 @@
-import {LogService} from './services';
-
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -13,14 +11,16 @@ export function __init (app) {
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
   app.use(helmet());
-  app.use(function(req,res,next) {
-    LogService.info('REQUEST-'+req.method, req.headers.host);
-    next();
-  })
 }
 
 export function app () {
-  return new express();
+  const app = new express();
+  const server = require('http').Server(app);
+  const io = require('socket.io')(server);
+  
+  return {
+    app, io, server
+  };
 }
 
 export function initGitHubAPI () {
@@ -36,7 +36,7 @@ export const ACTION_TYPE = {
   PROFILE: 'me',
   AUTHENTICATION: 'auth',
   SUBSCRIPTION: 'subscribe',
-  UNSUBSCRIPTION: 'unsubscribe',
+  UNSUBSCRIPTION: 'unsubscribe'
 };
 
 export function Router () {

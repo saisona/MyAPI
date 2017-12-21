@@ -2,12 +2,12 @@ import {EventEmitter} from 'events';
 import {Application} from './Application';
 import {LogService} from './services';
 
+
 const emitter = new EventEmitter();
 const app = new Application();
 
 const githubRouter = require('./routers/GithubRouter')(app, emitter);
 const googleRouter = require('./routers/GoogleRouter')(app, emitter);
-const io = require('socket.io')(8080);
 const channels = new Map();
 
 app.run();
@@ -34,7 +34,7 @@ app.get('/json', function(req, res) {
 
 app.get('/json/version', (req, res) => res.redirect('/version'));
 
-io.on('connection', (socket) => {
+app.io.on('connection', (socket) => {
   app.getService('WebSocket').socket = socket;
   
   socket.on('collect', (data) => {
