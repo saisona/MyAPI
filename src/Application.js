@@ -1,4 +1,4 @@
-import {config} from "./default.config";
+import {config, api} from "./default.config";
 import {__init, ACTION_TYPE, app} from './helpers';
 
 import {GithubService, GoogleService, LogService, RequestService, SSEService} from './services';
@@ -10,7 +10,7 @@ export class Application {
     this._helper_app = app();
     this.app = this._helper_app.server;
     this._io = this._helper_app.io;
-    this._store = null;
+    this._store = new Store(null);
     this._services = new Map();
     __init(this._helper_app.app);
     this.init();
@@ -73,20 +73,18 @@ export class Application {
    * Start the API application
    */
   run () {
-    this.app.listen(config.port);
-  }
-  
-  
-  stop () {
-    process.exit(0);
+    this.app.listen(config.port, function() {
+      LogService.info('APPLICATION' , `Listening on port ${config.port}`);
+      LogService.info('APPLICATION' , `Use env : ${api.API_BRANCH}`);
+    });
   }
   
   
   /**
    * Init the store and the Authentication Service with the User id => UID
+   * @returns {boolean} depends if the app has been set on global
    */
   init () {
-    this._store = new Store(null);
     this.addService('Google', new GoogleService(this.store));
     this.addService('Github', new GithubService(this.store));
     this.addService('SSE', new SSEService(this.store, 'localhost:' + config.port));
@@ -109,13 +107,18 @@ export class Application {
   }
   
   
+  /**
+   * Handle a POST request from Application into express API
+   * @param {String} route
+   * @param {Function} callback the function to call at least
+   */
   post (route, callback) {
     return this._helper_app.app.post(route, callback);
   }
   
   
   /**
-   *
+   * Express use function
    * @param {Router} fn router function
    */
   use (fn) {

@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events';
 import {Application} from './Application';
+import {api} from './default.config';
 import {LogService} from './services';
-
 
 const emitter = new EventEmitter();
 const app = new Application();
@@ -22,16 +22,13 @@ app.get('/docs', function (req, res) {
   res.redirect('https://documenter.getpostman.com/view/1161028/rand-ia-api-2017/7EK5qh1');
 });
 app.post('/fake', function (req, res) {
-  if(req.body) {
-    res.jsonp(req.body);
-  } else {
-    res.status(500).jsonp({errcode: 500, message: 'Fake endpoint need some body to be checked'});
-  }
-});
-app.get('/json', function(req, res) {
-
+  req.body ?
+  res.jsonp(req.body) :
+  res.status(500).jsonp({errcode: 500, message: 'Fake endpoint need some body to be checked'});
 });
 
+app.get('/json', (req, res) => res.status(201).json(api));
+app.get('/version', (req, res) => res.status(201).send(api.API_VERSION));
 app.get('/json/version', (req, res) => res.redirect('/version'));
 
 app.io.on('connection', (socket) => {

@@ -1,7 +1,13 @@
 import * as configStore from 'basic-config-store';
 
+export const api = {
+  API_VERSION: '0.0.4',
+  API_BRANCH: 'dev',
+  API_COLLECT: true,
+};
+
 export const config = {
-  port: 3000,
+  port: api.API_BRANCH === 'dev' ? 1337: api.API_BRANCH === 'prod' ? 3000 : 3001,
   env: 'prod',
   store: configStore.createConfig(),
   GOOGLE_AUTH_ID : '724984107224-ns4du56rtqsdt76ki391rn3olkap7754.apps.googleusercontent.com',

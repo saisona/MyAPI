@@ -31,6 +31,10 @@ export class GithubService extends BasicService {
           case ACTION_TYPE.PROFILE:
             this.getAuthenticatedUser()
               .then(data => data.data)
+              .then(data => {
+                console.log(`LOG => `, data);
+                return data;
+              })
               .then(user => resolve(user))
               .catch(err => reject(err));
             break;

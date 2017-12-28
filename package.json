@@ -1,6 +1,6 @@
 {
   "name": "myapi",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Small private API used to handle alias requests",
   "main": "index.js",
   "scripts": {
