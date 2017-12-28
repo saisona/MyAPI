@@ -2,7 +2,7 @@ import * as configStore from 'basic-config-store';
 
 export const api = {
   API_VERSION: '0.0.4',
-  API_BRANCH: 'dev',
+  API_BRANCH: 'prod',
   API_COLLECT: true
 };
 
@@ -17,7 +17,7 @@ export const config = {
     AUTHORIZED_LINK: (api.API_BRANCH !== 'dev' ? 'https://api.randia.eu/' : 'http://localhost:1337/') + 'google/auth/success',
     SCOPES: [
       'https://www.googleapis.com/auth/plus.me',
-      'https://www.googleapis.com/auth/calendar'
+      'https://www.googleapis.com/auth/calendar',
     ]
   },
   GITHUB: {

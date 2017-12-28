@@ -1,12 +1,12 @@
 import Application from '../Application';
-import {Channel} from '../Channel';
+import Channel from '../Channel';
 import BasicService from '../services/BasicService';
 
 describe('Channel', function () {
   
   const app = new Application();
   let channel;
-  const fakeSocket = {id : Math.random()*Infinity-1, data: null}
+  const fakeSocket = {id : Math.random()*Infinity-1, data: null};
   
   it('should create simple Channel', function () {
     channel = new Channel('tmp', app);
@@ -39,7 +39,7 @@ describe('Channel', function () {
     try {
       channel.watch();
       done();
-    }catch (err) {done(err.message)}
+    }catch (err) {done(err)}
   });
   
 });

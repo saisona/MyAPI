@@ -7,6 +7,7 @@ module.exports = function (application, emitter) {
   });
   
   application.get('/google/auth/success', function (req, res) {
+    application.getService('Google').handleAuthentication(req.query.code);
     application.store.setConstantToStore('GOOGLE_TOKEN', req.query.code);
     res.status(200).jsonp({event: 'AUTHENTICATION_SUCCESS', payload: {google_key: req.query.code}});
   });
