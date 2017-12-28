@@ -1,11 +1,10 @@
-import {config, api} from "./default.config";
+import {api, config} from "./default.config";
 import {__init, ACTION_TYPE, app} from './helpers';
 
-import {GithubService, GoogleService, LogService, RequestService, SSEService} from './services';
-import {WebSocketService} from './services/WebSocketService';
-import {Store} from './Store';
+import {GithubService, GoogleService, LogService, RequestService, SSEService, WebSocketService} from './services';
+import Store from './Store';
 
-export class Application {
+export default class Application {
   constructor () {
     this._helper_app = app();
     this.app = this._helper_app.server;
@@ -73,9 +72,9 @@ export class Application {
    * Start the API application
    */
   run () {
-    this.app.listen(config.port, function() {
-      LogService.info('APPLICATION' , `Listening on port ${config.port}`);
-      LogService.info('APPLICATION' , `Use env : ${api.API_BRANCH}`);
+    this.app.listen(config.port, function () {
+      LogService.info('APPLICATION', `Listening on port ${config.port}`);
+      LogService.info('APPLICATION', `Use env : ${api.API_BRANCH}`);
     });
   }
   

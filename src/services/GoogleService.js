@@ -1,9 +1,9 @@
 import googleapis from 'googleapis';
-import {api, config} from '../default.config';
-import {BasicService} from './BasicService';
-import {LogService} from './LogService';
+import {config} from '../default.config';
+import BasicService from './BasicService';
+import LogService from './LogService';
 
-export class GoogleService extends BasicService {
+export default class GoogleService extends BasicService {
   
   constructor (store) {
     super(store);
@@ -35,7 +35,7 @@ export class GoogleService extends BasicService {
   
   handleCalendar (opts) {
     let options_query = {
-      key: config.GOOGLE_API_KEY,
+      key: config.GOOGLE.API_KEY,
       calendarId: 'primary'
     };
     if (opts) {
@@ -65,7 +65,7 @@ export class GoogleService extends BasicService {
   
   handleProfile (opts) {
     let options_query = {
-      key: config.GOOGLE_API_KEY
+      key: config.GOOGLE.API_KEY
     };
     return new Promise((resolve, reject) => {
       const calendar = googleapis.plus('v3');
@@ -80,15 +80,11 @@ export class GoogleService extends BasicService {
   
   
   handleAuthentication () {
-    const scopes = [
-      'https://www.googleapis.com/auth/plus.me',
-      'https://www.googleapis.com/auth/calendar'
-    ];
     const OAuth2 = googleapis.auth.OAuth2;
     const oauth2Client = new OAuth2(
-      config.GOOGLE_AUTH_ID,
-      config.GOOGLE_AUTH_SECRET,
-      (api.API_BRANCH !== 'dev' ? 'https://api.randia.eu/' : 'http://localhost:1337/') + 'google/auth/success/'
+      config.GOOGLE.AUTH_ID,
+      config.GOOGLE.AUTH_SECRET,
+      config.GOOGLE.AUTHORIZED_LINK
     );
     googleapis.options({
       auth: oauth2Client
@@ -96,13 +92,8 @@ export class GoogleService extends BasicService {
     
     return oauth2Client.generateAuthUrl({
       // 'online' (default) or 'offline' (gets refresh_token)
-      access_type: 'offline',
-      
-      // If you only need one scope you can pass it as a string
-      scope: scopes
-      
-      // Optional property that passes state parameters to redirect URI
-      // state: 'foo'
+      access_type: 'online',
+      scope: config.GOOGLE.SCOPES
     });
   }
 }

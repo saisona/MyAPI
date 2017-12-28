@@ -1,6 +1,6 @@
-import {Application} from '../Application';
+import Application from '../Application';
 import {GoogleService} from '../services/GoogleService';
-import {Store} from '../Store';
+import Store from '../Store';
 
 describe('Google Service', function () {
   describe('From app', function () {

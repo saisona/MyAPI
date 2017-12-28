@@ -1,4 +1,4 @@
-export class BasicService {
+export default class BasicService {
   constructor(store){
     this.store = store;
   }

@@ -1,6 +1,6 @@
-import {Application} from '../Application';
+import Application from '../Application';
 import {Channel} from '../Channel';
-import {BasicService} from '../services/BasicService';
+import BasicService from '../services/BasicService';
 
 describe('Channel', function () {
   

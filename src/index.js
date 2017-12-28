@@ -1,5 +1,5 @@
 import {EventEmitter} from 'events';
-import {Application} from './Application';
+import Application from './Application';
 import {api} from './default.config';
 import {LogService} from './services';
 
@@ -35,8 +35,10 @@ app.io.on('connection', (socket) => {
   app.getService('WebSocket').socket = socket;
   
   socket.on('collect', (data) => {
-    LogService.obj(`COLLECT`, data);
-    LogService.file('COLLECT', socket.id, data);
+    if (api.API_COLLECT) {
+      LogService.obj(`COLLECT`, data);
+      LogService.file('COLLECT', socket.id, data);
+    }
   });
   
   emitter.addListener('subscription_data', (data) => socket.emit('subscription_data', data));

@@ -1,9 +1,8 @@
-import {Channel} from '../Channel';
+import Channel from '../Channel';
 import {ACTION_TYPE} from '../helpers';
-import {BasicService} from './BasicService';
-import {LogService} from './LogService';
+import BasicService from './BasicService';
 
-export class WebSocketService extends BasicService {
+export default class WebSocketService extends BasicService {
   
   constructor (store, channels = new Map()) {
     super(store);

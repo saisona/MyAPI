@@ -1,5 +1,5 @@
-import {Application} from '../Application';
-import {SSEService} from '../services/SSEService';
+import Application from '../Application';
+import SSEService from '../services/SSEService';
 
 const expect = require('chai').expect;
 

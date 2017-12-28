@@ -1,4 +1,4 @@
-export class LogService {
+export default class LogService {
   
   static info (className, message) {
     const copyArgs = Array.prototype.slice.call(arguments);
@@ -47,7 +47,8 @@ export class LogService {
     console.log.apply(null, copyArgs);
   }
   
-  static init(className) {
+  
+  static init (className) {
     const copyArgs = Array.prototype.slice.call(arguments);
     copyArgs.unshift('[INIT]');
     copyArgs.unshift(colors.Yellow);
@@ -55,9 +56,10 @@ export class LogService {
     console.log.apply(null, copyArgs);
   }
   
-  static file(className, id, ...data) {
+  
+  static file (className, id, ...data) {
     const fs = require('fs');
-    fs.writeFileSync(`./collecte/${id}.json`,JSON.stringify(data));
+    fs.writeFileSync(`./collecte/${id}.json`, JSON.stringify(data));
     return fs.existsSync(`./${id}`);
   }
 }

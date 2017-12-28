@@ -1,4 +1,4 @@
-import {Application} from '../Application';
+import Application from '../Application';
 import {EventEmitter} from 'events';
 
 const router = require('../routers/GoogleRouter');

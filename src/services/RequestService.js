@@ -1,7 +1,7 @@
 import {get, post} from 'request';
-import {BasicService} from './BasicService';
+import BasicService from './BasicService';
 
-export class RequestService extends BasicService {
+export default class RequestService extends BasicService {
   constructor (store) {
     super(store);
     this.Http_get = get;

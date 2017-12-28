@@ -2,7 +2,6 @@ import {config} from '../default.config';
 import {Router} from '../helpers';
 import {LogService} from '../services';
 
-
 const app = new Router();
 
 module.exports = function (application, emitter) {
@@ -17,15 +16,15 @@ module.exports = function (application, emitter) {
       response: res
     }).then(response => {
       emitter.emit('subscription_data', {channel: 'Github', data: response});
-      res.status(200).jsonp(response)
+      res.status(200).jsonp(response);
     })
       .catch(err => res.status(500).jsonp(err.message));
   });
   
   app.get('/github/auth/success', function (req, res) {
     application.getService('Request').post('https://github.com/login/oauth/access_token', {
-      client_id: config.GITHUB_AUTH_ID,
-      client_secret: config.GITHUB_AUTH_SECRET,
+      client_id: config.GITHUB.AUTH_ID,
+      client_secret: config.GITHUB.AUTH_SECRET,
       code: req.query.code
     }).then(response => {
       application.store.setConstantToStore('API_KEY_GITHUB', response.body.access_token);

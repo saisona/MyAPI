@@ -1,7 +1,6 @@
-const fs = require('fs');
 import {config} from './default.config';
 
-export class Store {
+export default class Store {
   
   constructor (storage) {
     this.storage = storage || config.store;
