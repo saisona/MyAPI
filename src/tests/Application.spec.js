@@ -1,4 +1,4 @@
-import {Application} from '../Application';
+import Application from '../Application';
 import {LogService} from '../services';
 
 describe('Application Primary', function () {

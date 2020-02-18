@@ -1,9 +1,9 @@
 import {config} from '../default.config';
 import {ACTION_TYPE, initGitHubAPI} from '../helpers';
-import {BasicService} from './BasicService';
-import {LogService} from './LogService';
+import BasicService from './BasicService';
+import LogService from './LogService';
 
-export class GithubService extends BasicService {
+export default class GithubService extends BasicService {
   
   constructor (store) {
     super(store);
@@ -25,6 +25,10 @@ export class GithubService extends BasicService {
           case ACTION_TYPE.NOTIFICATION:
             this.getNotifications()
               .then(data => data.data)
+              .then(data => {
+                console.log(`LOG => `, data);
+                return data;
+              })
               .then(notifications => resolve(notifications))
               .catch(err => reject(err));
             break;
@@ -39,7 +43,7 @@ export class GithubService extends BasicService {
         }
       } else {
         if (action_type === ACTION_TYPE.AUTHENTICATION)
-          GithubService.GithubAuthentication(config.GITHUB_AUTH_ID, params.response);
+          GithubService.GithubAuthentication(config.GITHUB.AUTH_ID, params.response);
         else
           return reject(new Error(`You must be authenticated to handle any request !`));
       }

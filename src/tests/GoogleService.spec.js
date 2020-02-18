@@ -1,30 +1,13 @@
-import {Application} from '../Application';
-import {GoogleService} from '../services/GoogleService';
-import {Store} from '../Store';
+import Application from '../Application';
+import GoogleService from '../services/GoogleService';
 
 describe('Google Service', function () {
-  describe('From app', function () {
-    const app = new Application();
-    it('should access the googleService', function () {
-       return app.getService('Google') !== null && app.getService('Google') instanceof GoogleService;
-    });
-    
-    it('should access to Calendar Events', function (done) {
-      const service = app.getService('Google');
-        service.handle('calendar').then(events => {
-          if (events.length > 0) done();
-          else done(new Error('No values specified'));
-        }).catch(err => done(err));
-    });
+
+  let service = new Application().getService('Google');
+
+  it('should access the googleService', function () {
+    return service !== null && service instanceof GoogleService;
   });
-  
-  describe('From Service', function () {
-    it('should access to Calendar Events', function (done) {
-      const service = new GoogleService(new Store(null));
-      service.handle('calendar').then(events => {
-        if (events.length > 0) done();
-        else done(new Error('No values specified'));
-      }).catch(err => done(err));
-    });
-  });
+
+  // TODO : HANDLE NEW TESTS !! WITHOUT LOGGED
 });

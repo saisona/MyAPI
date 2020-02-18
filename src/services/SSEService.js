@@ -1,6 +1,6 @@
-import {BasicService} from './BasicService';
+import BasicService from './BasicService';
 
-export class SSEService extends BasicService{
+export default class SSEService extends BasicService{
 
   constructor(store, pathSSE, ...args) {
     super(store);

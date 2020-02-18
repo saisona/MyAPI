@@ -1,6 +1,6 @@
-import {Application} from '../Application';
+import Application from '../Application';
 import {GithubService} from '../services';
-import {Store} from '../Store';
+import Store from '../Store';
 
 describe('Github Service', function () {
 
