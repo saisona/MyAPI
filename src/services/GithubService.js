@@ -41,7 +41,7 @@ export class GithubService extends BasicService {
         if (action_type === ACTION_TYPE.AUTHENTICATION)
           GithubService.GithubAuthentication(config.GITHUB_AUTH_ID, params.response);
         else
-          return reject(new Error(`${action_type} is not implemented yet !`));
+          return reject(new Error(`You must be authenticated to handle any request !`));
       }
     });
   }

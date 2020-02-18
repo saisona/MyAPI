@@ -7,10 +7,12 @@ import {Store} from './Store';
 
 export class Application {
   constructor () {
-    this.app = app();
+    this._helper_app = app();
+    this.app = this._helper_app.server;
+    this._io = this._helper_app.io;
     this._store = null;
     this._services = new Map();
-    __init(this.app);
+    __init(this._helper_app.app);
     this.init();
     LogService.info('APPLICATION', 'Starting APP');
   }
@@ -22,6 +24,11 @@ export class Application {
    */
   get store () {
     return this._store;
+  }
+  
+  
+  get io () {
+    return this._io;
   }
   
   
@@ -51,7 +58,7 @@ export class Application {
     return new Promise((resolve, reject) => {
       this.getService('WebSocket').handle(ACTION_TYPE.SUBSCRIPTION, opts.payload, this)
         .then(data => {
-          socket.emit('subscription_data', {channel: 'Google', data: data});
+          socket.emit('subscription_data', {channel: name, data: data});
           resolve(data);
         })
         .catch(err => {
@@ -66,12 +73,11 @@ export class Application {
    * Start the API application
    */
   run () {
-    this.app.listen(config.port, function () {
-      LogService.log(`APPLICATION`, 'Listening on 0.0.0.0:' + config.port);
-    });
+    this.app.listen(config.port);
   }
   
-  stop() {
+  
+  stop () {
     process.exit(0);
   }
   
@@ -88,7 +94,7 @@ export class Application {
     this.addService('WebSocket', new WebSocketService(this.store, new Map()));
     this._store.addToStore('app', this.app);
     this._store.setConstantToStore('consts', new Map());
-    global.Application = this;
+    global.app = this;
     return this._store.getFromStore('app') !== null;
   }
   
@@ -99,12 +105,12 @@ export class Application {
    * @param {Function} callback the function to call at least
    */
   get (route, callback) {
-    return this.app.get(route, callback);
+    return this._helper_app.app.get(route, callback);
   }
   
   
   post (route, callback) {
-    return this.app.post(route, callback);
+    return this._helper_app.app.post(route, callback);
   }
   
   
@@ -113,7 +119,7 @@ export class Application {
    * @param {Router} fn router function
    */
   use (fn) {
-    this.app.use(fn);
+    this._helper_app.app.use(fn);
   }
   
 }

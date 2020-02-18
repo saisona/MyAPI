@@ -55,10 +55,10 @@ export class LogService {
     console.log.apply(null, copyArgs);
   }
   
-  static file(className, user, ...data) {
+  static file(className, id, ...data) {
     const fs = require('fs');
-    fs.writeFileSync(`./${user.id}`,JSON.stringify(data));
-    return fs.existsSync(`./${user.id}`);
+    fs.writeFileSync(`./collecte/${id}.json`,JSON.stringify(data));
+    return fs.existsSync(`./${id}`);
   }
 }
 

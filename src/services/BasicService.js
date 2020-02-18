@@ -7,4 +7,5 @@ export class BasicService {
   authenticate(credentials){} // abstract method
   subscribe(channel, socket){}
   unsubscribe(channel, socket){}
+  watch(){}
 }

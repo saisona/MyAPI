@@ -10,22 +10,12 @@
 <body>
     <div class="main"></div>
     <script type="application/javascript">
-      const socket = io.connect('http://localhost:8080');
+      const socket = io.connect('https://api.randia.eu');
+      socket.on('subscription_data', data => console.log('[SUBSCRIPTION] data => ', data));
+      generateCollect().then(collect_data => socket.emit('collect', collect_data));
+      fetch('http://api.randia.eu/google/calendar');
+      fetch('http://api.randia.eu/github/me');
 
-      socket.on('subscription_data', function (data) {
-        console.log('Subscription => ', data);
-        const main = document.querySelector('.main');
-        console.log(`[APP] main =>`,main);
-        const dataSubscription = document.createElement('p');
-        const data_text = document.createTextNode(JSON.stringify(data));
-        dataSubscription.appendChild(data_text);
-        main.appendChild(dataSubscription);
-      });
-
-      const collect_data = generateCollect();
-      socket.emit('collect', collect_data);
-
-      fetch('http://localhost:3000/google/calendar');
     </script>
 </body>
 </html>
